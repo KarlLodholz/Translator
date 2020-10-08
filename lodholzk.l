@@ -1,14 +1,11 @@
 /* minir.l
-
-    flex minir.l
-    g++ lex.yy.c -o lexer
-    lexer < testInput
+    
+    flex minir.l 
+    Andy Simphaly
+	Karl Lodholz
 */
 
 %{
-
-int num_lines = 1;
-
 
 %}
 
@@ -86,7 +83,7 @@ COMMENT #+.*
 
 "^" {
     printTokenInfo("POWER", yytext);
-    return T_POWER;
+    return T_POW;
 }
 
 "<" {
@@ -176,6 +173,7 @@ COMMENT #+.*
 
 "function" {
     printTokenInfo("FUNCTION", yytext);
+    beginScope();
     return T_FUNCTION;
 }
 
@@ -188,7 +186,6 @@ COMMENT #+.*
     printTokenInfo("IN", yytext);
     return T_IN;
 }
-
 
 "quit" {
     printTokenInfo("QUIT", yytext);
@@ -231,12 +228,13 @@ COMMENT #+.*
 }
 
 {IDENT} {
+    yylval.text = strdup(yytext);
     printTokenInfo("IDENT", yytext);
     return T_IDENT;
 }
 
 {NEWLINE} {
-    num_lines++;
+    line_num++;
 }
 
 {WSPACE} {}
