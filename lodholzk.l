@@ -21,8 +21,8 @@ FLOATCONST (\+|-)?(({DIGIT})*\.({DIGIT})+)
 INTCONST (\+|-)?{DIGIT}+
 
 STRCONST (\")[^\"\t\v\r\n]*(\")
-
 COMMENT #+.*
+
 
 %%
 
@@ -173,7 +173,6 @@ COMMENT #+.*
 
 "function" {
     printTokenInfo("FUNCTION", yytext);
-    beginScope();
     return T_FUNCTION;
 }
 
@@ -228,8 +227,8 @@ COMMENT #+.*
 }
 
 {IDENT} {
-    yylval.text = strdup(yytext);
     printTokenInfo("IDENT", yytext);
+    yylval.text = strdup(yytext);
     return T_IDENT;
 }
 
